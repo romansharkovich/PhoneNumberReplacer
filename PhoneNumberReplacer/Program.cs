@@ -1,6 +1,4 @@
-﻿using PhoneNumberReplacer;
-
-namespace SmartParkWebApi
+﻿namespace PhoneNumberReplacer
 {
     public class Program
     {
@@ -10,7 +8,15 @@ namespace SmartParkWebApi
             const string phoneNumberFormat = "123-456-7899";
 
             var obj = new PhoneNumberFinder();
-            obj.FindMatches(storagePath, phoneNumberFormat);
+            try
+            {
+                obj.FindMatches(storagePath, phoneNumberFormat);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("There was an error reading the files: " + storagePath);
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

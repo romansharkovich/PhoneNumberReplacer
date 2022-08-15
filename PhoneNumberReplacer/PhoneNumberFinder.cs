@@ -9,18 +9,23 @@ namespace PhoneNumberReplacer
 {
     public class PhoneNumberFinder
     {
+        private string? content;
         public void ReplaceInFile(string filePath, string replaceText)
         {
-            StreamReader reader = new StreamReader(filePath);
-            string content = reader.ReadToEnd();
-            reader.Close();
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                content = reader.ReadToEnd();
+                reader.Close();
 
-            Regex regex = new Regex("[0-9]{3}-[0-9]{3}-[0-9]{4}");
-            content = regex.Replace(content, replaceText);
+                Regex regex = new Regex("[0-9]{3}-[0-9]{3}-[0-9]{4}");
+                content = regex.Replace(content, replaceText);
+            }
 
-            StreamWriter writer = new StreamWriter(filePath);
-            writer.Write(content);
-            writer.Close();
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                writer.Write(content);
+                writer.Close();
+            }
         }
 
         public void FindMatches(string directory, string replaceText)
