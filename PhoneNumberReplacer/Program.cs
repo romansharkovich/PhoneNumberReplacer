@@ -10,7 +10,7 @@
             var obj = new PhoneNumberFinder();
             try
             {
-                obj.FindMatches(storagePath, phoneNumberFormat);
+                obj.FindMatches(storagePath, phoneNumberFormat, 10);
             }
             catch (Exception e)
             {

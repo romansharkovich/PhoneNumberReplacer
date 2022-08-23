@@ -23,15 +23,20 @@ namespace PhoneNumberReplacer
             }
         }
 
-        public void FindMatches(string directory, string replaceText)
+        public void FindMatches(string directory, string replaceText, int maxTries)
         {
             foreach (var filePath in Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories)) {
-                try { 
-                    ReplaceInFile(filePath, replaceText); 
-                }
-                catch (Exception e) {
-                    Console.WriteLine($"There was an error of reading or writing the file: {filePath} !");
-                    Console.WriteLine(e.Message);
+                var count = 0;
+                while (count < maxTries) {
+                    try {
+                        ReplaceInFile(filePath, replaceText);
+                        return;
+                    } catch (Exception e) {
+                        if (++count == maxTries) {
+                            Console.WriteLine($"There was an error of reading or writing the file: {filePath} !");
+                            Console.WriteLine(e.Message);
+                        }
+                    }
                 }
             }
         }
