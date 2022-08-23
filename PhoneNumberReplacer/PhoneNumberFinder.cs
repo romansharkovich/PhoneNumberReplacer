@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace PhoneNumberReplacer
 {
@@ -30,16 +25,15 @@ namespace PhoneNumberReplacer
 
         public void FindMatches(string directory, string replaceText)
         {
-            foreach (var filePath in Directory.GetFiles(directory, "*.html")) {
-                ReplaceInFile(filePath, replaceText);
+            foreach (var filePath in Directory.GetFiles(directory, "*.html", SearchOption.AllDirectories)) {
+                try { 
+                    ReplaceInFile(filePath, replaceText); 
+                }
+                catch (Exception e) {
+                    Console.WriteLine($"There was an error of reading or writing the file: {filePath} !");
+                    Console.WriteLine(e.Message);
+                }
             }
         }
-
-        //TODO
-        /*public void FindMatchesParallel(string directory, string replaceText)
-        {
-            ParallelLoopResult result = Parallel.ForEach<string>(Directory.GetFiles(directory, "*.html"),
-                ReplaceInFile;
-        }*/
     }
 }
